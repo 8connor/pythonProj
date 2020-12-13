@@ -1,12 +1,19 @@
-import subprocess
-import win32api
-import win32com.client
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
-shell = win32com.client.Dispatch("WScript.shell")
+driver = webdriver.Chrome(executable_path='./chromedriver.exe')
+driver.get("https://www.bestbuy.com/site/gigabyte-34-led-ultrawide-wqhd-freesync-monitor-with-adjustable-stand-1ms-response-time-black/6437138.p?skuId=6437138")
 
-win32api.Sleep(5000)
 
-for x in range(0, 2):
-    shell.SendKeys("hello world")
-    shell.SendKeys("{ENTER}")
-print(x)
+element = driver.find_element_by_class_name("add-to-cart-button").get_attribute("innerHTML")
+Title = driver.find_element_by_class_name("heading-5").get_attribute("innerHTML")
+
+
+while element == "Sold Out":
+    print(Title + " is out of stock")
+    driver.refresh()
+else: 
+    print("not sold out")
+# print(element)
+# print("this has been done")
+# driver.close()
